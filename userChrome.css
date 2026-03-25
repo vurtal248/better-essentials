@@ -1,0 +1,142 @@
+@media (prefers-reduced-motion: no-preference) {
+    :root {
+        --zen-essentials-transition: 200ms cubic-bezier(0.2, 0, 0, 1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --zen-essentials-transition: 0ms;
+    }
+}
+
+/* ========================================================================= */
+/* (a) CONTAINER                                                             */
+/* ========================================================================= */
+#zen-essentials-container {
+    /* Visual demarcation and spacing */
+    /* !important required to override Zen/Firefox hardcoded inline sidebar spacing */
+    margin: 12px 10px 16px 10px !important;
+    padding: 8px !important;
+    border-radius: 14px;
+
+    /* Glassmorphism treatment */
+    background: color-mix(in srgb, var(--toolbar-bgcolor) 40%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    /* Subtle structural definition */
+    border: 1px solid color-mix(in srgb, var(--zen-colors-border, currentColor) 15%, transparent);
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Adjust dark theme structural elements */
+@media (prefers-color-scheme: dark) {
+    #zen-essentials-container {
+        background: color-mix(in srgb, var(--toolbar-bgcolor) 25%, transparent);
+        box-shadow:
+            0 4px 24px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+}
+
+/* ========================================================================= */
+/* (b) INDIVIDUAL ITEMS                                                      */
+/* ========================================================================= */
+#zen-essentials-container .tabbrowser-tab {
+    /* Reset outer layout shifts and prepare for GPU-accelerated animations */
+    margin: 0;
+    will-change: transform;
+    transition: transform var(--zen-essentials-transition);
+}
+
+#zen-essentials-container .tabbrowser-tab .tab-background {
+    /* !important to clear global Gecko tab backgrounds targeting `.tab-background` */
+    background-color: transparent !important;
+    border-radius: 10px !important;
+    /* !important to disable native snap transitions applied by the browser theme engine */
+    transition:
+        background-color var(--zen-essentials-transition),
+        box-shadow var(--zen-essentials-transition) !important;
+}
+
+/* ========================================================================= */
+/* (c) ICONS                                                                 */
+/* ========================================================================= */
+#zen-essentials-container .tab-icon-image {
+    border-radius: 4px;
+    /* Organic softening of sharp favicon edges */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+    transition: transform var(--zen-essentials-transition), filter var(--zen-essentials-transition);
+}
+
+@media (prefers-color-scheme: dark) {
+    #zen-essentials-container .tab-icon-image {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    }
+}
+
+/* ========================================================================= */
+/* (d) STATES (HOVER, ACTIVE, SELECTED)                                      */
+/* ========================================================================= */
+/* Hover state */
+#zen-essentials-container .tabbrowser-tab:hover {
+    transform: translateY(-2px);
+}
+
+#zen-essentials-container .tabbrowser-tab:hover .tab-background {
+    /* !important required to supersede native hover styling */
+    background-color: color-mix(in srgb, var(--tab-selected-bgcolor, currentColor) 15%, transparent) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+#zen-essentials-container .tabbrowser-tab:hover .tab-icon-image {
+    /* Delightful scale up on hover */
+    transform: scale(1.08);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* Active (Click) State */
+#zen-essentials-container .tabbrowser-tab:active {
+    transform: translateY(0) scale(0.96);
+    transition-duration: 50ms;
+}
+
+/* Selected State */
+#zen-essentials-container .tabbrowser-tab[selected="true"],
+#zen-essentials-container .tabbrowser-tab[selected] {
+    transform: translateY(-1px);
+}
+
+#zen-essentials-container .tabbrowser-tab[selected="true"] .tab-background,
+#zen-essentials-container .tabbrowser-tab[selected] .tab-background {
+    /* !important secures overriding the heavily dominant active tab state */
+    background-color: color-mix(in srgb, var(--tab-selected-bgcolor, currentColor) 25%, transparent) !important;
+
+    /* Add an outer glow combined with a high-contrast inset ring for accessibility */
+    box-shadow:
+        0 4px 16px color-mix(in srgb, var(--tab-selected-bgcolor, currentColor) 10%, transparent),
+        inset 0 0 0 1px color-mix(in srgb, var(--tab-selected-bgcolor, currentColor) 40%, transparent) !important;
+}
+
+/* Ensure selected icon maintains spatial prominence */
+#zen-essentials-container .tabbrowser-tab[selected="true"] .tab-icon-image,
+#zen-essentials-container .tabbrowser-tab[selected] .tab-icon-image {
+    transform: scale(1.04);
+}
+
+/* ========================================================================= */
+/* (e) THEME OVERRIDES (Variable Compliance)                                 */
+/* ========================================================================= */
+/* Enforce higher contrast borders for light themes explicitly */
+@media (prefers-color-scheme: light) {
+
+    #zen-essentials-container .tabbrowser-tab[selected="true"] .tab-background,
+    #zen-essentials-container .tabbrowser-tab[selected] .tab-background {
+        box-shadow:
+            0 4px 16px color-mix(in srgb, var(--tab-selected-bgcolor, currentColor) 15%, transparent),
+            inset 0 0 0 1.5px color-mix(in srgb, var(--tab-selected-bgcolor, currentColor) 70%, transparent) !important;
+    }
+}
