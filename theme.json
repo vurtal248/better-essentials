@@ -1,0 +1,11 @@
+{
+    "name": "Better Essentials",
+    "description": "A sine mod to enhance the look of essentials",
+    "homepage": "https://github.com/vurtal248/better-essentials",
+    "author": "vurtal248",
+    "version": "1.0.0",
+    "tags": [
+        "essentials",
+        "sidebar"
+    ]
+}
